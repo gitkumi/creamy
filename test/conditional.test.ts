@@ -42,7 +42,7 @@ describe('evaluateExpression', () => {
 describe('Conditional', () => {
   it('should render truthy/falsy IF', () => {
     const creamy = new Creamy()
-    creamy.addComponent(`
+    creamy.parse(`
     <div @name="item">
       <div @if="{details}">{details}</div>
     </div>
@@ -87,7 +87,7 @@ describe('Conditional', () => {
 
   it('should render comparison string', () => {
     const creamy = new Creamy()
-    creamy.addComponent(`
+    creamy.parse(`
     <div @name="item">
       <div @if="{language}==en">Hello, {language}</div>
     </div>

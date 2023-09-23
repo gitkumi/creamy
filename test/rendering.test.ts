@@ -3,7 +3,7 @@ import { Creamy } from '../src'
 
 it('should render components', () => {
   const creamy = new Creamy()
-  creamy.addComponent(`
+  creamy.parse(`
     <div @name="one">1</div>
     <div @name="two">2</div>
     <div @name="three">3</div>
@@ -22,7 +22,7 @@ it('should render components', () => {
 
 it('should render components with props', () => {
   const creamy = new Creamy()
-  creamy.addComponent(`
+  creamy.parse(`
     <div @name="one">{greetings}</div>
   `)
 
@@ -41,7 +41,7 @@ it.todo('it should dangerously render components with props', () => {})
 
 it.todo('it should escape characters', () => {
   const creamy = new Creamy()
-  creamy.addComponent(`
+  creamy.parse(`
     <div @name="one">{greetings}</div>
   `)
 
@@ -58,7 +58,7 @@ it.todo('it should escape characters', () => {
 
 it('should remove empty tags', () => {
   const creamy = new Creamy()
-  creamy.addComponent(`
+  creamy.parse(`
     <div @name="one">{unknown}</div>
   `)
 
@@ -75,7 +75,7 @@ it('should remove empty tags', () => {
 
 it('should render children text', () => {
   const creamy = new Creamy()
-  creamy.addComponent(`
+  creamy.parse(`
     <div @name="one">{children}</div>
   `)
 
@@ -92,7 +92,7 @@ it('should render children text', () => {
 
 it('should render children components', () => {
   const creamy = new Creamy()
-  creamy.addComponent(`
+  creamy.parse(`
     <div @name="parent">{children}</div>
     <div @name="child">Child</div>
   `)
