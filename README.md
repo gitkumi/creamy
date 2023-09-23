@@ -1,3 +1,3 @@
 # Creamy
 
-Minimal templating engine.
+A minimalistic component-based templating engine.

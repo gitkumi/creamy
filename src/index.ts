@@ -1,4 +1,4 @@
-import { parse, Node, HTMLElement } from 'node-html-parser'
+import { parse as parseNodes, Node, HTMLElement } from 'node-html-parser'
 
 export class Creamy {
   components: Map<string, HTMLElement>
@@ -7,8 +7,8 @@ export class Creamy {
     this.components = new Map()
   }
 
-  addComponent(source: string) {
-    const parsed = parse(source)
+  parse(source: string) {
+    const parsed = parseNodes(source)
 
     const traverse = (node: Node | HTMLElement) => {
       if (node instanceof HTMLElement && node.nodeType == 1) {
@@ -29,7 +29,7 @@ export class Creamy {
   }
 
   render(template: string) {
-    const parsed = parse(template)
+    const parsed = parseNodes(template)
 
     const traverse = (node: Node | HTMLElement) => {
       if (node instanceof HTMLElement && node.tagName) {
