@@ -2,7 +2,7 @@
 const packageJson = require('./package.json')
 
 const getPackageName = () => {
-  return packageJson.name
+  return packageJson.name.replace('@gitkumi/', '')
 }
 
 const config = {

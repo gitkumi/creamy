@@ -1,7 +1,11 @@
 {
   "name": "@gitkumi/creamy",
   "private": false,
-  "version": "0.7.0",
+  "version": "0.7.4",
+  "files": [
+    "dist",
+    "src/index.ts"
+  ],
   "main": "./dist/creamy.cjs",
   "module": "./dist/creamy.mjs",
   "exports": {
@@ -60,7 +64,6 @@
     "vitest": "^0.34.1"
   },
   "dependencies": {
-    "glob": "^10.3.6",
     "node-html-parser": "^6.1.10"
   },
   "engines": {
