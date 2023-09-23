@@ -60,18 +60,18 @@ describe('Conditional', () => {
     </div>
 
     <div @name="message" @if="{show}">
-      <div>{details}</div>
+      <div>Details: {details}</div>
     </div>
   `)
 
     expect(
       creamy.render(`
-    <Message show="true" details="hello" />
+      <Message show="true" details="hello" />
   `)
     ).toMatchInlineSnapshot(`
       "
-          <div>
-            <div>hello</div>
+            <div>
+            <div>Details: hello</div>
           </div>
         "
     `)
@@ -101,6 +101,18 @@ describe('Conditional', () => {
     expect(
       creamy.render(`
     <Item details="0" />
+  `)
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+          </div>
+        "
+    `)
+
+    expect(
+      creamy.render(`
+    <Item details="false" />
   `)
     ).toMatchInlineSnapshot(`
       "

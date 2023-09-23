@@ -61,23 +61,13 @@ export class Creamy {
       return
     }
 
-    const traverse = (node: Node | HTMLElement) => {
-      if (node instanceof HTMLElement) {
-        const shouldShow = evaluateExpression(node.attributes['@if'])
+    const shouldShow = evaluateExpression(node.attributes['@if'])
 
-        if (!shouldShow) {
-          node.remove()
-        }
-
-        node.removeAttribute('@if')
-      }
-
-      for (const child of node.childNodes) {
-        traverse(child)
-      }
+    if (!shouldShow) {
+      node.remove()
     }
 
-    traverse(node)
+    node.removeAttribute('@if')
   }
 
   private renderComponent(node: HTMLElement, component: HTMLElement) {
