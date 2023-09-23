@@ -1,47 +1,48 @@
-import { describe, expect, it } from "vitest"
-import { Creamy, evaluateExpression } from "../src/creamy"
+import { describe, expect, it } from 'vitest'
+import { Creamy, evaluateExpression } from '../src/creamy'
 
-describe("evaluateExpression", () => {
-  it("should return true for valid expressions (string)", () => {
-    expect(evaluateExpression("hello == hello")).toBe(true)
-    expect(evaluateExpression("hello === hello")).toBe(true)
-    expect(evaluateExpression("hello != hola")).toBe(true)
-    expect(evaluateExpression("hello !== hola")).toBe(true)
+describe('evaluateExpression', () => {
+  it('should return true for valid expressions (string)', () => {
+    expect(evaluateExpression('hello == hello')).toBe(true)
+    expect(evaluateExpression('hello === hello')).toBe(true)
+    expect(evaluateExpression('hello != hola')).toBe(true)
+    expect(evaluateExpression('hello !== hola')).toBe(true)
   })
 
-  it("should return false for invalid expressions (string)", () => {
-    expect(evaluateExpression("hello == hola")).toBe(false)
-    expect(evaluateExpression("hello === hola")).toBe(false)
-    expect(evaluateExpression("hello != hello")).toBe(false)
-    expect(evaluateExpression("hello !== hello")).toBe(false)
+  it('should return false for invalid expressions (string)', () => {
+    expect(evaluateExpression('hello == hola')).toBe(false)
+    expect(evaluateExpression('hello === hola')).toBe(false)
+    expect(evaluateExpression('hello != hello')).toBe(false)
+    expect(evaluateExpression('hello !== hello')).toBe(false)
   })
 
-  it("should return true for valid expressions", () => {
-    expect(evaluateExpression("1 < 2")).toBe(true)
-    expect(evaluateExpression("2 <= 2")).toBe(true)
-    expect(evaluateExpression("3 > 2")).toBe(true)
-    expect(evaluateExpression("2 >= 2")).toBe(true)
-    expect(evaluateExpression("1 == 1")).toBe(true)
-    expect(evaluateExpression("1 === 1")).toBe(true)
-    expect(evaluateExpression("1 != 2")).toBe(true)
+  it('should return true for valid expressions', () => {
+    expect(evaluateExpression('1 < 2')).toBe(true)
+    expect(evaluateExpression('2 <= 2')).toBe(true)
+    expect(evaluateExpression('3 > 2')).toBe(true)
+    expect(evaluateExpression('2 >= 2')).toBe(true)
+    expect(evaluateExpression('1 == 1')).toBe(true)
+    expect(evaluateExpression('1 === 1')).toBe(true)
+    expect(evaluateExpression('1 != 2')).toBe(true)
     expect(evaluateExpression("1 !== '1'")).toBe(true)
   })
 
-  it("should return false for invalid expressions", () => {
-    expect(evaluateExpression("2 < 1")).toBe(false)
-    expect(evaluateExpression("2 <= 1")).toBe(false)
-    expect(evaluateExpression("2 > 3")).toBe(false)
-    expect(evaluateExpression("2 >= 3")).toBe(false)
-    expect(evaluateExpression("1 == 0")).toBe(false)
+  it('should return false for invalid expressions', () => {
+    expect(evaluateExpression('2 < 1')).toBe(false)
+    expect(evaluateExpression('2 <= 1')).toBe(false)
+    expect(evaluateExpression('2 > 3')).toBe(false)
+    expect(evaluateExpression('2 >= 3')).toBe(false)
+    expect(evaluateExpression('1 == 0')).toBe(false)
     expect(evaluateExpression("1 === '1'")).toBe(false)
-    expect(evaluateExpression("1 != 1")).toBe(false)
-    expect(evaluateExpression("1 !== 1")).toBe(false)
+    expect(evaluateExpression('1 != 1')).toBe(false)
+    expect(evaluateExpression('1 !== 1')).toBe(false)
   })
 })
 
-describe("Conditional", () => {
-  it("should render truthy/falsy IF", () => {
-    const creamy = new Creamy(`
+describe('Conditional', () => {
+  it('should render truthy/falsy IF', () => {
+    const creamy = new Creamy()
+    creamy.addComponent(`
     <div @name="item">
       <div @if="{details}">{details}</div>
     </div>
@@ -84,8 +85,9 @@ describe("Conditional", () => {
     `)
   })
 
-  it("should render comparison string", () => {
-    const creamy = new Creamy(`
+  it('should render comparison string', () => {
+    const creamy = new Creamy()
+    creamy.addComponent(`
     <div @name="item">
       <div @if="{language}==en">Hello, {language}</div>
     </div>

@@ -1,74 +1,33 @@
-import { parse, Node, HTMLElement } from "node-html-parser"
-
-export function evaluateExpression(string: string) {
-  if (string.length <= 0) {
-    return false
-  }
-
-  const operators = ["<=", "<", ">=", ">", "!==", "!=", "===", "=="]
-
-  const operator = operators.find(o => {
-    return string.includes(o)
-  })
-
-  if (!operator) {
-    // Retain this JS behavior
-    return string === "0" ? false : true
-  }
-
-  const [leftOperand, rightOperand] = string.split(operator)
-  const trimmedLeftOperand = leftOperand.trim()
-  const trimmedRightOperand = rightOperand.trim()
-
-  if (operator === "===") {
-    return trimmedLeftOperand === trimmedRightOperand
-  }
-
-  if (operator === "!==") {
-    return trimmedLeftOperand !== trimmedRightOperand
-  }
-
-  if (operator === "==") {
-    return trimmedLeftOperand == trimmedRightOperand
-  }
-
-  if (operator === "!=") {
-    return trimmedLeftOperand != trimmedRightOperand
-  }
-
-  if (
-    Number.isNaN(Number(trimmedLeftOperand)) ||
-    Number.isNaN(Number(trimmedRightOperand))
-  ) {
-    return false
-  }
-
-  const numLeftOperand = Number.parseFloat(trimmedLeftOperand)
-  const numRightOperand = Number.parseFloat(trimmedRightOperand)
-
-  switch (operator) {
-    case "<":
-      return numLeftOperand < numRightOperand
-    case "<=":
-      return numLeftOperand <= numRightOperand
-    case ">":
-      return numLeftOperand > numRightOperand
-    case ">=":
-      return numLeftOperand >= numRightOperand
-    case "==":
-      return numLeftOperand == numRightOperand
-    case "!=":
-      return numLeftOperand != numRightOperand
-    default:
-      return false
-  }
-}
+import { parse, Node, HTMLElement } from 'node-html-parser'
 
 export class Creamy {
   components: Map<string, HTMLElement>
 
-  constructor(source: string) {
-    this.components = this.parseComponents(source)
+  constructor() {
+    this.components = new Map()
+  }
+
+  addComponentFromFiles(files: []) {}
+
+  addComponent(source: string) {
+    const parsed = parse(source)
+
+    const traverse = (node: Node | HTMLElement) => {
+      if (node instanceof HTMLElement && node.nodeType == 1) {
+        const name = node.attributes['@name'] as string
+
+        if (name) {
+          const key = this.stringToComponentKey(name)
+          this.components.set(key, node)
+        }
+      }
+
+      for (const child of node.childNodes) {
+        traverse(child)
+      }
+    }
+
+    traverse(parsed)
   }
 
   render(template: string) {
@@ -98,7 +57,7 @@ export class Creamy {
   }
 
   private renderConditional(node: HTMLElement) {
-    const hasIf = "@if" in node.attributes
+    const hasIf = '@if' in node.attributes
 
     if (!hasIf) {
       return
@@ -106,11 +65,11 @@ export class Creamy {
 
     const traverse = (node: Node | HTMLElement) => {
       if (node instanceof HTMLElement) {
-        const shouldShow = evaluateExpression(node.attributes["@if"])
+        const shouldShow = evaluateExpression(node.attributes['@if'])
         if (!shouldShow) {
           node.remove()
         }
-        node.removeAttribute("@if")
+        node.removeAttribute('@if')
       }
 
       for (const child of node.childNodes) {
@@ -122,16 +81,16 @@ export class Creamy {
   }
 
   private renderComponent(node: HTMLElement, component: HTMLElement) {
-    component.removeAttribute("@name")
+    component.removeAttribute('@name')
 
     const withProps = component.toString().replaceAll(/{[^}]+}/g, match => {
-      if (match === "{children}") {
+      if (match === '{children}') {
         return node.innerHTML
       }
 
-      const attributeName = match.replaceAll("{", "").replaceAll("}", "")
+      const attributeName = match.replaceAll('{', '').replaceAll('}', '')
 
-      return node.attributes[attributeName] || ""
+      return node.attributes[attributeName] || ''
     })
 
     const withChildren = this.render(withProps)
@@ -139,30 +98,70 @@ export class Creamy {
   }
 
   private stringToComponentKey(string: string) {
-    return string.toLowerCase().replaceAll(/[^\dA-Za-z]/g, "")
+    return string.toLowerCase().replaceAll(/[^\dA-Za-z]/g, '')
+  }
+}
+
+export function evaluateExpression(string: string) {
+  if (string.length <= 0) {
+    return false
   }
 
-  private parseComponents(source: string) {
-    const parsed = parse(source)
-    const components = new Map()
+  const operators = ['<=', '<', '>=', '>', '!==', '!=', '===', '==']
 
-    const traverse = (node: Node | HTMLElement) => {
-      if (node instanceof HTMLElement && node.nodeType == 1) {
-        const name = node.attributes["@name"] as string
+  const operator = operators.find(o => {
+    return string.includes(o)
+  })
 
-        if (name) {
-          const key = this.stringToComponentKey(name)
-          components.set(key, node)
-        }
-      }
+  if (!operator) {
+    // Retain this JS behavior
+    return string === '0' ? false : true
+  }
 
-      for (const child of node.childNodes) {
-        traverse(child)
-      }
-    }
+  const [leftOperand, rightOperand] = string.split(operator)
+  const trimmedLeftOperand = leftOperand.trim()
+  const trimmedRightOperand = rightOperand.trim()
 
-    traverse(parsed)
+  if (operator === '===') {
+    return trimmedLeftOperand === trimmedRightOperand
+  }
 
-    return components
+  if (operator === '!==') {
+    return trimmedLeftOperand !== trimmedRightOperand
+  }
+
+  if (operator === '==') {
+    return trimmedLeftOperand == trimmedRightOperand
+  }
+
+  if (operator === '!=') {
+    return trimmedLeftOperand != trimmedRightOperand
+  }
+
+  if (
+    Number.isNaN(Number(trimmedLeftOperand)) ||
+    Number.isNaN(Number(trimmedRightOperand))
+  ) {
+    return false
+  }
+
+  const numLeftOperand = Number.parseFloat(trimmedLeftOperand)
+  const numRightOperand = Number.parseFloat(trimmedRightOperand)
+
+  switch (operator) {
+    case '<':
+      return numLeftOperand < numRightOperand
+    case '<=':
+      return numLeftOperand <= numRightOperand
+    case '>':
+      return numLeftOperand > numRightOperand
+    case '>=':
+      return numLeftOperand >= numRightOperand
+    case '==':
+      return numLeftOperand == numRightOperand
+    case '!=':
+      return numLeftOperand != numRightOperand
+    default:
+      return false
   }
 }

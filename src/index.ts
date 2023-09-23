@@ -1,1 +1,1 @@
-export { Creamy, evaluateExpression } from "./creamy"
+export { Creamy, evaluateExpression } from './creamy'
