@@ -1,7 +1,7 @@
 {
-  "name": "creamy",
+  "name": "@gitkumi/creamy",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.7.0",
   "main": "./dist/creamy.cjs",
   "module": "./dist/creamy.mjs",
   "exports": {
@@ -10,6 +10,16 @@
       "import": "./dist/creamy.mjs"
     }
   },
+  "keywords": [
+    "template",
+    "html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gitkumi/creamy.git"
+  },
+  "license": "Good Boy License",
+  "author": "Ito Takumi <ito.tkmi@gmail.com>",
   "types": "./dist/creamy.d.ts",
   "scripts": {
     "dev": "vite --host",
@@ -52,5 +62,9 @@
   "dependencies": {
     "glob": "^10.3.6",
     "node-html-parser": "^6.1.10"
+  },
+  "engines": {
+    "node": ">=16.13.0",
+    "pnpm": ">=7.1.0"
   }
 }

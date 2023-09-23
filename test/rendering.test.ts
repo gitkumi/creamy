@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { Creamy } from '../src/creamy'
+import { Creamy } from '../src'
 
 it('should render components', () => {
   const creamy = new Creamy()

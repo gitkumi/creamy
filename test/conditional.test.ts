@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { Creamy, evaluateExpression } from '../src/creamy'
+import { Creamy, evaluateExpression } from '../src'
 
 describe('evaluateExpression', () => {
   it('should return true for valid expressions (string)', () => {

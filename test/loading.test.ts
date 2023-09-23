@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { Creamy } from '../src/creamy'
+import { Creamy } from '../src'
 import { resolve } from 'path'
 
 it('should add components', () => {
