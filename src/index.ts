@@ -61,13 +61,61 @@ export class Creamy {
       return
     }
 
-    const shouldShow = evaluateExpression(node.attributes['@if'])
+    const show = evaluateExpression(node.attributes['@if'])
+    node.removeAttribute('@if')
 
-    if (!shouldShow) {
-      node.remove()
+    const hideNextElses = (node: HTMLElement) => {
+      const nextNode = node.nextElementSibling
+
+      if (nextNode) {
+        const hasElse = '@else' in nextNode.attributes
+        const hasElseIf = nextNode.attributes['@else-if']
+
+        if (hasElse || hasElseIf) {
+          nextNode.remove()
+          hideNextElses(node)
+        }
+      }
     }
 
-    node.removeAttribute('@if')
+    if (show) {
+      hideNextElses(node)
+      return
+    }
+
+    for (;;) {
+      const nextNode = node.nextElementSibling
+
+      if (!nextNode) {
+        node.remove()
+        break
+      }
+
+      const hasElse = '@else' in nextNode.attributes
+
+      if (hasElse) {
+        nextNode.removeAttribute('@else')
+        node.remove()
+        break
+      }
+
+      const hasElseIf = nextNode.attributes['@else-if']
+      const show = evaluateExpression(hasElseIf)
+
+      if (show) {
+        nextNode.removeAttribute('@else-if')
+        node.remove()
+        hideNextElses(nextNode)
+        break
+      }
+
+      if (!hasElse && !hasElseIf) {
+        node.remove()
+        break
+      }
+
+      nextNode.remove()
+    }
   }
 
   private renderComponent(node: HTMLElement, component: HTMLElement) {
