@@ -64,9 +64,11 @@ export class Creamy {
     const traverse = (node: Node | HTMLElement) => {
       if (node instanceof HTMLElement) {
         const shouldShow = evaluateExpression(node.attributes['@if'])
+
         if (!shouldShow) {
           node.remove()
         }
+
         node.removeAttribute('@if')
       }
 
@@ -101,7 +103,7 @@ export class Creamy {
 }
 
 export function evaluateExpression(string: string) {
-  if (string.length <= 0) {
+  if (!string) {
     return false
   }
 
@@ -112,8 +114,15 @@ export function evaluateExpression(string: string) {
   })
 
   if (!operator) {
-    // Retain this JS behavior
-    return string === '0' ? false : true
+    if (string === '0') {
+      return false
+    }
+
+    if (string === 'false') {
+      return false
+    }
+
+    return true
   }
 
   const [leftOperand, rightOperand] = string.split(operator)
