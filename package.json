@@ -50,6 +50,7 @@
     "vitest": "^0.34.1"
   },
   "dependencies": {
+    "glob": "^10.3.6",
     "node-html-parser": "^6.1.10"
   }
 }

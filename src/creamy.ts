@@ -1,4 +1,6 @@
 import { parse, Node, HTMLElement } from 'node-html-parser'
+import { glob } from 'glob'
+import { existsSync, readFileSync } from 'node:fs'
 
 export class Creamy {
   components: Map<string, HTMLElement>
@@ -7,7 +9,16 @@ export class Creamy {
     this.components = new Map()
   }
 
-  addComponentFromFiles(files: []) {}
+  async addComponentFromFiles(paths: string[]) {
+    const files = await glob(paths)
+
+    for (const file of files) {
+      if (existsSync(file)) {
+        const content = readFileSync(file, 'utf-8')
+        this.addComponent(content)
+      }
+    }
+  }
 
   addComponent(source: string) {
     const parsed = parse(source)
