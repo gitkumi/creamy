@@ -68,13 +68,25 @@ describe('Conditional Rendering', () => {
       creamy.render(`
       <Message show="true" details="hello" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>Details: hello</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+            <div>
+            <div>Details: hello</div>
+          </div>
+        "
+    `)
 
     expect(
       creamy.render(`
     <Item details="hello" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>hello</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            <div>hello</div>
+          </div>
+        "
+    `)
   })
 
   it('should not render falsy', () => {
@@ -94,25 +106,47 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Message show="false" details="hello" />
   `)
-    ).toMatchInlineSnapshot('""')
+    ).toMatchInlineSnapshot(`
+      "
+          
+        "
+    `)
 
     expect(
       creamy.render(`
     <Item details="0" />
   `)
-    ).toMatchInlineSnapshot('"<div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+          </div>
+        "
+    `)
 
     expect(
       creamy.render(`
     <Item details="false" />
   `)
-    ).toMatchInlineSnapshot('"<div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+          </div>
+        "
+    `)
 
     expect(
       creamy.render(`
     <Item details="" />
   `)
-    ).toMatchInlineSnapshot('"<div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+          </div>
+        "
+    `)
   })
 
   it('should render true comparison string result', () => {
@@ -128,7 +162,13 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Item language="en" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>Hello, en</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            <div>Hello, en</div>
+          </div>
+        "
+    `)
   })
 
   it('should not render false string comparison result', () => {
@@ -144,7 +184,11 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Item language="ja" />
   `)
-    ).toMatchInlineSnapshot('""')
+    ).toMatchInlineSnapshot(`
+      "
+          
+        "
+    `)
   })
 
   it('should render if and remove else', () => {
@@ -162,7 +206,15 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Ranking rank="1" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>First</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            <div>First</div>
+            
+            
+          </div>
+        "
+    `)
   })
 
   it('should render else and remove if', () => {
@@ -179,7 +231,14 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Ranking rank="2" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>Runner Up</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+            <div>Runner Up</div>
+          </div>
+        "
+    `)
   })
 
   it('should render else-if and remove if and else', () => {
@@ -200,7 +259,18 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Ranking rank="4" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>Fourth</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+            
+            
+            <div>Fourth</div>
+            
+            
+          </div>
+        "
+    `)
   })
 
   it('should not remove unrelated node', () => {
@@ -221,7 +291,18 @@ describe('Conditional Rendering', () => {
       creamy.render(`
     <Ranking rank="10" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>Should not delete</div></div>"')
+    ).toMatchInlineSnapshot(`
+      "
+          <div>
+            
+            
+            
+            
+            
+            <div>Should not delete</div>
+          </div>
+        "
+    `)
   })
 
   it('should throw an error if else has no matching if', () => {

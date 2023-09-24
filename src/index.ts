@@ -50,7 +50,7 @@ export class Creamy {
 
     traverse(parsed)
 
-    return parsed.removeWhitespace().toString()
+    return parsed.toString()
   }
 
   private renderConditional(element: HTMLElement) {
