@@ -15,7 +15,7 @@ export class Creamy {
         const name = node.attributes['@name'] as string
 
         if (name) {
-          const key = this.stringToComponentKey(name)
+          const key = toPascalCase(name)
           this.components.set(key, node)
         }
       }
@@ -33,8 +33,7 @@ export class Creamy {
 
     const traverse = (node: Node | HTMLElement) => {
       if (node instanceof HTMLElement && node.tagName) {
-        const key = this.stringToComponentKey(node.tagName)
-        const component = this.components.get(key)
+        const component = this.components.get(node.rawTagName)
 
         if (component) {
           // Node will be replaced by component
@@ -159,10 +158,19 @@ export class Creamy {
     const withChildren = this.render(withProps)
     element.replaceWith(withChildren)
   }
+}
 
-  private stringToComponentKey(string: string) {
-    return string.toLowerCase().replaceAll(/[^\dA-Za-z]/g, '')
+export function toPascalCase(string: string) {
+  if (/^[a-z\d]+$/i.test(string)) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
   }
+
+  return string
+    .replace(
+      /([a-z\d])([a-z\d]*)/gi,
+      (_g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+    )
+    .replace(/[^a-z\d]/gi, '')
 }
 
 export function sanitizeString(string: string) {

@@ -67,6 +67,32 @@ describe('Rendering', () => {
     )
   })
 
+  it('should render only when node.rawTagName is PascalCase', () => {
+    const creamy = new Creamy()
+    creamy.parse(`
+    <button @name="button">{children}</button>
+  `)
+
+    expect(
+      creamy.render(`
+    <Button>Custom Button</Button>
+`)
+    ).toMatchInlineSnapshot('"<button>Custom Button</button>"')
+  })
+
+  it('should not render if node.rawTagName is not PascalCase', () => {
+    const creamy = new Creamy()
+    creamy.parse(`
+    <button class="font-bold" @name="button">{children}</button>
+  `)
+
+    expect(
+      creamy.render(`
+      <button>Native Button</button>
+`)
+    ).toMatchInlineSnapshot('"<button>Native Button</button>"')
+  })
+
   it('should render components with props', () => {
     const creamy = new Creamy()
     creamy.parse(`
@@ -80,7 +106,7 @@ describe('Rendering', () => {
     ).toMatchInlineSnapshot('"<div>hello</div>"')
   })
 
-  it('it should dangerously render components with props', () => {
+  it('should dangerously render components with props', () => {
     const creamy = new Creamy()
     creamy.parse(`
     <div @name="one">{greetings!}</div>
@@ -93,7 +119,7 @@ describe('Rendering', () => {
     ).toMatchInlineSnapshot('"<div><div>Element</div></div>"')
   })
 
-  it('it should escape characters', () => {
+  it('should escape characters', () => {
     const creamy = new Creamy()
     creamy.parse(`
     <div @name="one">{greetings}</div>

@@ -30,12 +30,24 @@ creamy.render('<html><Navbar/></html>')
 <div @name="container">{children}</div>
 
 // you can create multiple component in single file.
-<button @name="app-button">{children}</button>
+<button @name="button">{children}</button>
 
 // index.html
 <Container>
-  <AppButton> Submit </AppButton>
+  <Button>Submit</Button>
 </Container>
+```
+
+To prevent conflict with normal HTML tags, component usage should be `PascalCase`.
+
+```html
+// components.html
+<div @name="button">{children}</div>
+<div @name="app-button">{children}</div>
+
+//index.html
+<Button>Custom Button</Button>
+<AppButton>Custom Button</AppButton>
 ```
 
 - `@if` / `@else-if` / `@else`
@@ -79,7 +91,7 @@ All props are sanitized by default. If you need to show a prop as is, add a `!` 
 ```
 
 `{children}` is a special prop that you can use to pass the entire content of the element.  
-Note that `{children}` will be rendered unsanitized. 
+Note that `{children}` will be rendered unsanitized.
 
 ```html
 // components.html
