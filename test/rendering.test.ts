@@ -13,11 +13,9 @@ it('should render components', () => {
     <One/><Two/><Three/>
   `)
 
-  expect(rendered).toMatchInlineSnapshot(`
-    "
-        <div>1</div><div>2</div><div>3</div>
-      "
-  `)
+  expect(rendered).toMatchInlineSnapshot(
+    '"<div>1</div><div>2</div><div>3</div>"'
+  )
 })
 
 it('should render components with props', () => {
@@ -30,11 +28,7 @@ it('should render components with props', () => {
     creamy.render(`
     <One greetings="hello" />
   `)
-  ).toMatchInlineSnapshot(`
-    "
-        <div>hello</div>
-      "
-  `)
+  ).toMatchInlineSnapshot('"<div>hello</div>"')
 })
 
 it.todo('it should dangerously render components with props', () => {})
@@ -66,11 +60,7 @@ it('should remove empty tags', () => {
     creamy.render(`
     <One greetings="hello" />
   `)
-  ).toMatchInlineSnapshot(`
-    "
-        <div></div>
-      "
-  `)
+  ).toMatchInlineSnapshot('"<div></div>"')
 })
 
 it('should render children text', () => {
@@ -83,11 +73,7 @@ it('should render children text', () => {
     creamy.render(`
     <One>Children rendered</One>
   `)
-  ).toMatchInlineSnapshot(`
-    "
-        <div>Children rendered</div>
-      "
-  `)
+  ).toMatchInlineSnapshot('"<div>Children rendered</div>"')
 })
 
 it('should render children components', () => {
@@ -101,11 +87,7 @@ it('should render children components', () => {
     creamy.render(`
     <Parent><Child/></Parent>
   `)
-  ).toMatchInlineSnapshot(`
-    "
-        <div><div>Child</div></div>
-      "
-  `)
+  ).toMatchInlineSnapshot('"<div><div>Child</div></div>"')
 })
 
 it.todo('it should dangerously render children components', () => {})

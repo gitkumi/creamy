@@ -51,10 +51,22 @@ export class Creamy {
 
     traverse(parsed)
 
-    return parsed.toString()
+    return parsed.removeWhitespace().toString()
   }
 
   private renderConditional(node: HTMLElement) {
+    // const hasElseIf = '@else-if' in node.attributes
+
+    // if (hasElseIf) {
+    //   throw new Error('else if is not valid.')
+    // }
+
+    // const hasElse = '@else' in node.attributes
+
+    // if (hasElse) {
+    //   throw new Error('else is not valid.')
+    // }
+
     const hasIf = '@if' in node.attributes
 
     if (!hasIf) {
