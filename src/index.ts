@@ -183,8 +183,8 @@ export function sanitizeString(string: string) {
     .replaceAll(/</g, '&lt;')
     .replaceAll(/>/g, '&gt;')
     .replaceAll(/"/g, '&quot;')
-    .replaceAll(/'/g, '&#x27')
-    .replaceAll(/\//g, '&#x2F')
+    .replaceAll(/'/g, '&#x27;')
+    .replaceAll(/\//g, '&#x2F;')
 }
 
 export function evaluateExpression(string: string) {

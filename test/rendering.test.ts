@@ -23,22 +23,22 @@ describe('sanitizeString', () => {
   })
 
   it("should sanitize single-quote (') character", () => {
-    expect(sanitizeString("'")).toBe('&#x27')
+    expect(sanitizeString("'")).toBe('&#x27;')
   })
 
   it('should sanitize forward slash (/) character', () => {
-    expect(sanitizeString('/')).toBe('&#x2F')
+    expect(sanitizeString('/')).toBe('&#x2F;')
   })
 
   it('should sanitize special characters in a string', () => {
     expect(sanitizeString('<div>Hello, "World" & \'Universe\'</div>')).toBe(
-      '&lt;div&gt;Hello, &quot;World&quot; &amp; &#x27Universe&#x27&lt;&#x2Fdiv&gt;'
+      '&lt;div&gt;Hello, &quot;World&quot; &amp; &#x27;Universe&#x27;&lt;&#x2F;div&gt;'
     )
   })
 
   it('should prevent XXS', () => {
     expect(sanitizeString("<script>alert('xss')</script>")).toBe(
-      '&lt;script&gt;alert(&#x27xss&#x27)&lt;&#x2Fscript&gt;'
+      '&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;'
     )
   })
 
@@ -130,7 +130,7 @@ describe('Rendering', () => {
     <One greetings="<script>alert('xss')</script>" />
   `)
     ).toMatchInlineSnapshot(
-      '"<div>&lt;script&gt;alert(&#x27xss&#x27)&lt;&#x2Fscript&gt;</div>"'
+      '"<div>&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;</div>"'
     )
   })
 
