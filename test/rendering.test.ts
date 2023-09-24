@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { Creamy, sanitizeString } from '../src'
 
 describe('sanitizeString', () => {
+  it('should handle empty string', () => {
+    expect(sanitizeString('')).toBe('')
+  })
+
   it('should sanitize "&" character', () => {
     expect(sanitizeString('&')).toBe('&amp;')
   })
@@ -76,7 +80,18 @@ describe('Rendering', () => {
     ).toMatchInlineSnapshot('"<div>hello</div>"')
   })
 
-  it.todo('it should dangerously render components with props', () => {})
+  it('it should dangerously render components with props', () => {
+    const creamy = new Creamy()
+    creamy.parse(`
+    <div @name="one">{greetings!}</div>
+  `)
+
+    expect(
+      creamy.render(`
+    <One greetings="<div>Element</div>" />
+  `)
+    ).toMatchInlineSnapshot('"<div><div>Element</div></div>"')
+  })
 
   it('it should escape characters', () => {
     const creamy = new Creamy()
@@ -86,9 +101,11 @@ describe('Rendering', () => {
 
     expect(
       creamy.render(`
-    <One greetings="<div>No XSS</div>" />
+    <One greetings="<script>alert('xss')</script>" />
   `)
-    ).toMatchInlineSnapshot('"<div><div>No XSS</div></div>"')
+    ).toMatchInlineSnapshot(
+      '"<div>&lt;script&gt;alert(&#x27xss&#x27)&lt;&#x2Fscript&gt;</div>"'
+    )
   })
 
   it('should remove empty tags', () => {
@@ -130,6 +147,4 @@ describe('Rendering', () => {
   `)
     ).toMatchInlineSnapshot('"<div><div>Child</div></div>"')
   })
-
-  it.todo('it should dangerously render children components', () => {})
 })

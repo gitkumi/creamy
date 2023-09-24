@@ -142,9 +142,16 @@ export class Creamy {
         return element.innerHTML
       }
 
-      const attributeName = match.replaceAll('{', '').replaceAll('}', '')
+      const dangerously = match.endsWith('!}')
 
-      const value = element.attributes[attributeName]
+      const attributeName = match
+        .replaceAll('{', '')
+        .replaceAll('!}', '')
+        .replaceAll('}', '')
+
+      const value = dangerously
+        ? element.attributes[attributeName]
+        : sanitizeString(element.attributes[attributeName])
 
       return value || ''
     })
@@ -159,6 +166,10 @@ export class Creamy {
 }
 
 export function sanitizeString(string: string) {
+  if (!string) {
+    return ''
+  }
+
   return string
     .replaceAll(/&/g, '&amp;')
     .replaceAll(/</g, '&lt;')

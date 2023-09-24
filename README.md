@@ -68,7 +68,18 @@ You can add props to a component by wrapping a string with `{}`
 <Greetings name="Ada" />
 ```
 
-`{children}` is a special prop that you can use to pass the entire content of the element.
+All props are sanitized by default. If you need to show a prop as is, add a `!` to the prop name.
+
+```html
+// components.html
+<div @name="greetings">Hello, {name}! {icon!}</div>
+
+// index.html
+<Greetings name="Ada" icon={<svg></svg>} />
+```
+
+`{children}` is a special prop that you can use to pass the entire content of the element.  
+Note that `{children}` will be rendered unsanitized. 
 
 ```html
 // components.html
