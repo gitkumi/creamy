@@ -2,6 +2,40 @@
 
 A minimalistic component-based HTML templating engine.
 
+## Why Creamy?
+
+Creamy allows you to develop websites with reusable HTML without the need to ship runtime JS.  
+It aims to be a modern `handlebars.js` alternative.  
+
+```
+// index.html
+<html>
+  <body>
+    <Header />
+    <Container>
+      <Title>Services</Title>
+      <Grid col="3">
+        <Card>
+          <Icon name="rocket"></Icon>
+        </Card>
+        <Card>
+          <Icon name="camera"></Icon>
+        </Card>
+        <Card>
+          <Icon name="like"></Icon>
+        </Card>
+      </Grid>
+    </Container>
+    <Footer />
+  </body>
+</html>
+```
+
+This will generate a pure static HTML so you don't need to think about SSR, SEO, etc. 
+
+Creamy is great for developing static websites.  
+If you are developing a JS-heavy application, then Creamy might not be for you.   
+
 ## Installation
 
 ```sh
@@ -87,7 +121,7 @@ All props are sanitized by default. If you need to show a prop as is, add a `!` 
 <div @name="greetings">Hello, {name}! {icon!}</div>
 
 // index.html
-<Greetings name="Ada" icon={<svg></svg>} />
+<Greetings name="Ada" icon="<svg></svg>" />
 ```
 
 `{children}` is a special prop that you can use to pass the entire content of the element.  
@@ -115,12 +149,12 @@ function creamyLoader() {
     transformIndexHtml(html: string) {
       const creamy = new Creamy()
 
-      const templates = globSync(
-        resolve(__dirname, '../src/components/**.html')
+      const components = globSync(
+        resolve(__dirname, './src/components/**.html')
       )
 
-      for (let template of templates) {
-        const content = readFileSync(template, 'utf8')
+      for (let component of components) {
+        const content = readFileSync(component, 'utf8')
         creamy.parse(content)
       }
 
