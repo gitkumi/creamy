@@ -182,7 +182,7 @@ describe('Conditional Rendering', () => {
     ).toMatchInlineSnapshot('"<div><div>Runner Up</div></div>"')
   })
 
-  it('should render else if and remove if and else', () => {
+  it('should render else-if and remove if and else', () => {
     const creamy = new Creamy()
 
     creamy.parse(`
@@ -222,5 +222,33 @@ describe('Conditional Rendering', () => {
     <Ranking rank="10" />
   `)
     ).toMatchInlineSnapshot('"<div><div>Should not delete</div></div>"')
+  })
+
+  it('should throw an error if else has no matching if', () => {
+    const creamy = new Creamy()
+
+    creamy.parse(`
+    <div @name="ranking">
+      <div @else>Should not delete</div>
+    </div>
+  `)
+
+    expect(() => creamy.render('<Ranking />')).toThrowError(
+      '@else is not valid.'
+    )
+  })
+
+  it('should throw an error if else-if has no matching if', () => {
+    const creamy = new Creamy()
+
+    creamy.parse(`
+    <div @name="ranking">
+      <div @else-if="true">Should not delete</div>
+    </div>
+  `)
+
+    expect(() => creamy.render('<Ranking />')).toThrowError(
+      '@else-if is not valid.'
+    )
   })
 })

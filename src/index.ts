@@ -55,17 +55,21 @@ export class Creamy {
   }
 
   private renderConditional(node: HTMLElement) {
-    // const hasElseIf = '@else-if' in node.attributes
+    const hasElseIf = '@else-if' in node.attributes
 
-    // if (hasElseIf) {
-    //   throw new Error('else if is not valid.')
-    // }
+    // 'else'/'else-if' gets processed together with if.
+    // processed 'else' gets detached from the DOM via node.remove()
+    // so if an 'else' node still have a parentNode,
+    // an 'if' node was not processed beforehand so we throw an error.
+    if (node.parentNode && hasElseIf) {
+      throw new Error('@else-if is not valid.')
+    }
 
-    // const hasElse = '@else' in node.attributes
+    const hasElse = '@else' in node.attributes
 
-    // if (hasElse) {
-    //   throw new Error('else is not valid.')
-    // }
+    if (node.parentNode && hasElse) {
+      throw new Error('@else is not valid.')
+    }
 
     const hasIf = '@if' in node.attributes
 
@@ -157,6 +161,14 @@ export function evaluateExpression(string: string) {
     return false
   }
 
+  if (string === '0') {
+    return false
+  }
+
+  if (string === 'false') {
+    return false
+  }
+
   const operators = ['<=', '<', '>=', '>', '!==', '!=', '===', '==']
 
   const operator = operators.find(o => {
@@ -164,14 +176,6 @@ export function evaluateExpression(string: string) {
   })
 
   if (!operator) {
-    if (string === '0') {
-      return false
-    }
-
-    if (string === 'false') {
-      return false
-    }
-
     return true
   }
 
