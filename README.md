@@ -25,7 +25,7 @@ creamy.render('<html><Navbar/></html>')
 - `@name`
   Creates a component. `@name` is required for all components.
 
-```html
+```
 // components.html
 <div @name="container">{children}</div>
 
@@ -40,7 +40,7 @@ creamy.render('<html><Navbar/></html>')
 
 To prevent conflict with normal HTML tags, component usage should be `PascalCase`.
 
-```html
+```
 // components.html
 <div @name="button">{children}</div>
 <div @name="app-button">{children}</div>
@@ -53,7 +53,7 @@ To prevent conflict with normal HTML tags, component usage should be `PascalCase
 - `@if` / `@else-if` / `@else`
   Conditionally render a node.
 
-```html
+```
 // components.html
 <div @name="ranking">
   <div @if="{rank}==1">First</div>
@@ -72,7 +72,7 @@ To prevent conflict with normal HTML tags, component usage should be `PascalCase
 
 You can add props to a component by wrapping a string with `{}`
 
-```html
+```
 // components.html
 <div @name="greetings">Hello, {name}!</div>
 
@@ -82,7 +82,7 @@ You can add props to a component by wrapping a string with `{}`
 
 All props are sanitized by default. If you need to show a prop as is, add a `!` to the prop name.
 
-```html
+```
 // components.html
 <div @name="greetings">Hello, {name}! {icon!}</div>
 
@@ -93,7 +93,7 @@ All props are sanitized by default. If you need to show a prop as is, add a `!` 
 `{children}` is a special prop that you can use to pass the entire content of the element.  
 Note that `{children}` will be rendered unsanitized.
 
-```html
+```
 // components.html
 <div @name="container">{children}</div>
 

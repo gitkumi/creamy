@@ -2,7 +2,7 @@
 
 ## [0.7.x] - 2023-09-24
 
-- Sanitize props by default 
+- Sanitize props by default
 - Update component key and usage to be PascalCase
 
 ## [0.7.6] - 2023-09-24

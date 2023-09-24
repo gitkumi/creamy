@@ -20,15 +20,16 @@ describe('toPascalCase', () => {
   })
 })
 
-it('should add components', () => {
-  const creamy = new Creamy()
-  creamy.parse(`
+describe('Parsing', () => {
+  it('should parse components', () => {
+    const creamy = new Creamy()
+    creamy.parse(`
     <div @name="one">1</div>
     <div @name="two">2</div>
     <div @name="three">3</div>
   `)
 
-  expect(creamy.components).toMatchInlineSnapshot(`
+    expect(creamy.components).toMatchInlineSnapshot(`
     Map {
       "One" => <div>
         TextNode {
@@ -62,4 +63,5 @@ it('should add components', () => {
       </div>,
     }
   `)
+  })
 })
