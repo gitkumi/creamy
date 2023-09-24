@@ -30,9 +30,7 @@ creamy.render('<html><Navbar/></html>')
 <div @name="container">{children}</div>
 
 // you can create multiple component in single file.
-<button @name="app-button">
-  {children}
-</button>
+<button @name="app-button">{children}</button>
 ```
 
 then in your template.
@@ -67,17 +65,17 @@ then in your template.
 ## Props
 
 You can add props to a component by wrapping a text with `{}`
+
 ```html
 // component
-<div @name="greetings">
-  Hello, {name}!
-</div>
+<div @name="greetings">Hello, {name}!</div>
 
 // template
 <Greetings name="Ada" />
 ```
 
 `{children}` is a special prop that you can use to pass the entire content of the element.
+
 ```html
 // component
 <div @name="container">{children}</div>

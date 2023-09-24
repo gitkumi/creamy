@@ -11,7 +11,7 @@ export class Creamy {
     const parsed = parseNodes(source)
 
     const traverse = (node: Node | HTMLElement) => {
-      if (node instanceof HTMLElement && node.nodeType == 1) {
+      if (node instanceof HTMLElement && node.tagName) {
         const name = node.attributes['@name'] as string
 
         if (name) {
@@ -54,31 +54,31 @@ export class Creamy {
     return parsed.removeWhitespace().toString()
   }
 
-  private renderConditional(node: HTMLElement) {
-    const hasElseIf = '@else-if' in node.attributes
+  private renderConditional(element: HTMLElement) {
+    const hasElseIf = '@else-if' in element.attributes
 
     // 'else'/'else-if' gets processed together with if.
     // processed 'else' gets detached from the DOM via node.remove()
     // so if an 'else' node still have a parentNode,
     // an 'if' node was not processed beforehand so we throw an error.
-    if (node.parentNode && hasElseIf) {
+    if (element.parentNode && hasElseIf) {
       throw new Error('@else-if is not valid.')
     }
 
-    const hasElse = '@else' in node.attributes
+    const hasElse = '@else' in element.attributes
 
-    if (node.parentNode && hasElse) {
+    if (element.parentNode && hasElse) {
       throw new Error('@else is not valid.')
     }
 
-    const hasIf = '@if' in node.attributes
+    const hasIf = '@if' in element.attributes
 
     if (!hasIf) {
       return
     }
 
-    const show = evaluateExpression(node.attributes['@if'])
-    node.removeAttribute('@if')
+    const show = evaluateExpression(element.attributes['@if'])
+    element.removeAttribute('@if')
 
     const hideNextElses = (node: HTMLElement) => {
       const nextNode = node.nextElementSibling
@@ -95,15 +95,15 @@ export class Creamy {
     }
 
     if (show) {
-      hideNextElses(node)
+      hideNextElses(element)
       return
     }
 
     for (;;) {
-      const nextNode = node.nextElementSibling
+      const nextNode = element.nextElementSibling
 
       if (!nextNode) {
-        node.remove()
+        element.remove()
         break
       }
 
@@ -111,7 +111,7 @@ export class Creamy {
 
       if (hasElse) {
         nextNode.removeAttribute('@else')
-        node.remove()
+        element.remove()
         break
       }
 
@@ -120,13 +120,13 @@ export class Creamy {
 
       if (show) {
         nextNode.removeAttribute('@else-if')
-        node.remove()
+        element.remove()
         hideNextElses(nextNode)
         break
       }
 
       if (!hasElse && !hasElseIf) {
-        node.remove()
+        element.remove()
         break
       }
 
@@ -134,21 +134,21 @@ export class Creamy {
     }
   }
 
-  private renderComponent(node: HTMLElement, component: HTMLElement) {
+  private renderComponent(element: HTMLElement, component: HTMLElement) {
     component.removeAttribute('@name')
 
     const withProps = component.toString().replaceAll(/{[^}]+}/g, match => {
       if (match === '{children}') {
-        return node.innerHTML
+        return element.innerHTML
       }
 
       const attributeName = match.replaceAll('{', '').replaceAll('}', '')
 
-      return node.attributes[attributeName] || ''
+      return element.attributes[attributeName] || ''
     })
 
     const withChildren = this.render(withProps)
-    node.replaceWith(withChildren)
+    element.replaceWith(withChildren)
   }
 
   private stringToComponentKey(string: string) {
@@ -157,15 +157,7 @@ export class Creamy {
 }
 
 export function evaluateExpression(string: string) {
-  if (!string) {
-    return false
-  }
-
-  if (string === '0') {
-    return false
-  }
-
-  if (string === 'false') {
+  if (!string || string === '0' || string === 'false') {
     return false
   }
 
@@ -179,35 +171,30 @@ export function evaluateExpression(string: string) {
     return true
   }
 
-  const [leftOperand, rightOperand] = string.split(operator)
-  const trimmedLeftOperand = leftOperand.trim()
-  const trimmedRightOperand = rightOperand.trim()
+  const [leftOperand, rightOperand] = string.split(operator).map(s => s.trim())
 
   if (operator === '===') {
-    return trimmedLeftOperand === trimmedRightOperand
+    return leftOperand === rightOperand
   }
 
   if (operator === '!==') {
-    return trimmedLeftOperand !== trimmedRightOperand
+    return leftOperand !== rightOperand
   }
 
   if (operator === '==') {
-    return trimmedLeftOperand == trimmedRightOperand
+    return leftOperand == rightOperand
   }
 
   if (operator === '!=') {
-    return trimmedLeftOperand != trimmedRightOperand
+    return leftOperand != rightOperand
   }
 
-  if (
-    Number.isNaN(Number(trimmedLeftOperand)) ||
-    Number.isNaN(Number(trimmedRightOperand))
-  ) {
+  if (Number.isNaN(Number(leftOperand)) || Number.isNaN(Number(rightOperand))) {
     return false
   }
 
-  const numLeftOperand = Number.parseFloat(trimmedLeftOperand)
-  const numRightOperand = Number.parseFloat(trimmedRightOperand)
+  const numLeftOperand = Number.parseFloat(leftOperand)
+  const numRightOperand = Number.parseFloat(rightOperand)
 
   switch (operator) {
     case '<':
