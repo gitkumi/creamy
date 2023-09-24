@@ -63,11 +63,7 @@ describe('Rendering', () => {
   `)
 
     expect(rendered).toMatchInlineSnapshot(
-      `
-      "
-          <div>1</div><div>2</div><div>3</div>
-        "
-    `
+      '"<div>1</div><div>2</div><div>3</div>"'
     )
   })
 
@@ -81,11 +77,7 @@ describe('Rendering', () => {
       creamy.render(`
     <Button>Custom Button</Button>
 `)
-    ).toMatchInlineSnapshot(`
-      "
-          <button>Custom Button</button>
-      "
-    `)
+    ).toMatchInlineSnapshot('"<button>Custom Button</button>"')
   })
 
   it('should not render if node.rawTagName is not PascalCase', () => {
@@ -98,11 +90,7 @@ describe('Rendering', () => {
       creamy.render(`
       <button>Native Button</button>
 `)
-    ).toMatchInlineSnapshot(`
-      "
-            <button>Native Button</button>
-      "
-    `)
+    ).toMatchInlineSnapshot('"<button>Native Button</button>"')
   })
 
   it('should render components with props', () => {
@@ -115,11 +103,7 @@ describe('Rendering', () => {
       creamy.render(`
     <One greetings="hello" />
   `)
-    ).toMatchInlineSnapshot(`
-      "
-          <div>hello</div>
-        "
-    `)
+    ).toMatchInlineSnapshot('"<div>hello</div>"')
   })
 
   it('should dangerously render components with props', () => {
@@ -132,11 +116,7 @@ describe('Rendering', () => {
       creamy.render(`
     <One greetings="<div>Element</div>" />
   `)
-    ).toMatchInlineSnapshot(`
-      "
-          <div><div>Element</div></div>
-        "
-    `)
+    ).toMatchInlineSnapshot('"<div><div>Element</div></div>"')
   })
 
   it('should escape characters', () => {
@@ -150,11 +130,7 @@ describe('Rendering', () => {
     <One greetings="<script>alert('xss')</script>" />
   `)
     ).toMatchInlineSnapshot(
-      `
-      "
-          <div>&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;</div>
-        "
-    `
+      '"<div>&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;</div>"'
     )
   })
 
@@ -168,11 +144,7 @@ describe('Rendering', () => {
       creamy.render(`
     <One greetings="hello" />
   `)
-    ).toMatchInlineSnapshot(`
-      "
-          <div></div>
-        "
-    `)
+    ).toMatchInlineSnapshot('"<div></div>"')
   })
 
   it('should render children text', () => {
@@ -185,11 +157,7 @@ describe('Rendering', () => {
       creamy.render(`
     <One>Children rendered</One>
   `)
-    ).toMatchInlineSnapshot(`
-      "
-          <div>Children rendered</div>
-        "
-    `)
+    ).toMatchInlineSnapshot('"<div>Children rendered</div>"')
   })
 
   it('should render children components', () => {
@@ -203,10 +171,6 @@ describe('Rendering', () => {
       creamy.render(`
     <Parent><Child/></Parent>
   `)
-    ).toMatchInlineSnapshot(`
-      "
-          <div><div>Child</div></div>
-        "
-    `)
+    ).toMatchInlineSnapshot('"<div><div>Child</div></div>"')
   })
 })

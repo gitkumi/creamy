@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.7.9] - 2023-09-25
+
+- Remove whitespace by default
+
 ## [0.7.8] - 2023-09-25
 
 - Do not remove whitespace by default
