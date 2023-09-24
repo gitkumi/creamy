@@ -144,7 +144,9 @@ export class Creamy {
 
       const attributeName = match.replaceAll('{', '').replaceAll('}', '')
 
-      return element.attributes[attributeName] || ''
+      const value = element.attributes[attributeName]
+
+      return value || ''
     })
 
     const withChildren = this.render(withProps)
@@ -154,6 +156,16 @@ export class Creamy {
   private stringToComponentKey(string: string) {
     return string.toLowerCase().replaceAll(/[^\dA-Za-z]/g, '')
   }
+}
+
+export function sanitizeString(string: string) {
+  return string
+    .replaceAll(/&/g, '&amp;')
+    .replaceAll(/</g, '&lt;')
+    .replaceAll(/>/g, '&gt;')
+    .replaceAll(/"/g, '&quot;')
+    .replaceAll(/'/g, '&#x27')
+    .replaceAll(/\//g, '&#x2F')
 }
 
 export function evaluateExpression(string: string) {
