@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.7.x] - 2023-09-24
+## [0.7.7] - 2023-09-25
 
 - Sanitize props by default
 - Update component key and usage to be PascalCase
