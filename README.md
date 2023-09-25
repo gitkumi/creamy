@@ -5,7 +5,7 @@ A minimalistic component-based HTML templating engine.
 ## Why Creamy?
 
 Creamy allows you to develop websites with reusable HTML without the need to ship runtime JS.  
-It aims to be a modern `handlebars.js` alternative.  
+It aims to be a modern `handlebars.js` alternative.
 
 ```
 // index.html
@@ -31,10 +31,10 @@ It aims to be a modern `handlebars.js` alternative.
 </html>
 ```
 
-This will generate a pure static HTML so you don't need to think about SSR, SEO, etc. 
+This will compile to a pure static HTML so you don't need to think about SSR, SEO, etc.
 
 Creamy is great for developing static websites.  
-If you are developing a JS-heavy application, then Creamy might not be for you.   
+If you are developing a JS-heavy application, then Creamy might not be for you.
 
 ## Installation
 
@@ -167,3 +167,7 @@ export default defineConfig({
   plugins: [creamyLoader()],
 })
 ```
+
+## Here be dragons
+
+Public API are sujected to breaking changes before v1.0 release. Use at your own will.

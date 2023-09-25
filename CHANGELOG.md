@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.7.10] - 2023-09-26
+
+- Update docs
+
 ## [0.7.9] - 2023-09-25
 
 - Remove whitespace by default

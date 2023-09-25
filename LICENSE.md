@@ -4,12 +4,12 @@ Please do whatever your mom would approve of:
 
 ## Permitted Use
 
-Download
-Change
+Download  
+Change  
 Fork
 
 ## Prohibited Use
 
-No tattoos
-No touching food with unwashed hands
+No tattoos  
+No touching food with unwashed hands  
 No exchanging for drugs
