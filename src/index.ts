@@ -135,28 +135,25 @@ export class Creamy {
 
   private renderComponent(element: HTMLElement, component: HTMLElement) {
     component.removeAttribute('@name')
+    const withProps = this.renderProps(element, component)
+    const withChildren = this.render(withProps)
+    element.replaceWith(withChildren)
+  }
 
-    const withProps = component.toString().replaceAll(/{[^}]+}/g, match => {
-      if (match === '{children}') {
+  private renderProps(element: HTMLElement, component: HTMLElement) {
+    return component.toString().replaceAll(/{([^}]+)}/g, (_match, key) => {
+      if (key === 'children') {
         return element.innerHTML
       }
 
-      const dangerously = match.endsWith('!}')
-
-      const attributeName = match
-        .replaceAll('{', '')
-        .replaceAll('!}', '')
-        .replaceAll('}', '')
+      const dangerously = key.endsWith('!')
 
       const value = dangerously
-        ? element.attributes[attributeName]
-        : sanitizeString(element.attributes[attributeName])
+        ? element.attributes[key.slice(0, -1)]
+        : sanitizeString(element.attributes[key])
 
       return value || ''
     })
-
-    const withChildren = this.render(withProps)
-    element.replaceWith(withChildren)
   }
 }
 
