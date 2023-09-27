@@ -42,7 +42,11 @@ If you are developing a JS-heavy application, then Creamy might not be for you.
 pnpm add -D @gitkumi/creamy
 ```
 
+Public API are subjected to breaking changes before v1.0 release. Use at your own will.
+
 ## Usage
+
+Somewhere in your build step:
 
 ```ts
 const creamy = new Creamy()
@@ -167,7 +171,3 @@ export default defineConfig({
   plugins: [creamyLoader()],
 })
 ```
-
-## Here be dragons
-
-Public API are sujected to breaking changes before v1.0 release. Use at your own will.
